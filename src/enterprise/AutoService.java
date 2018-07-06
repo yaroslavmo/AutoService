@@ -8,7 +8,7 @@ import java.util.List;
 public class AutoService {
     private List<Client> clients;
     private List<Service> services;
-    private List<Bill> bills; // перенести в журнал подумать над closeBill и currentBill
+    private List<Bill> bills; // перенести в журнал подумать над closeBill (внутри applyDiscount)  и currentBill
 
     public AutoService(List<Client> clients, List<Service> services) {
         this.clients = clients;
