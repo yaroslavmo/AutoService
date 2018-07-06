@@ -10,6 +10,8 @@ public class Bill {
     private final Client client;
     private double totalCost = 0;
     private final ArrayList<Service> billServices;
+//    private ArrayList<Service> billServices;
+
 
     public Bill(Client client, ArrayList<Service> billServices) {
         this.client = client;
@@ -19,6 +21,7 @@ public class Bill {
 
     public Bill(Client client, Service billService) {
         this.client = client;
+        //this.billServices = new ArrayList<>();
         this.billServices = new ArrayList<>(Collections.singletonList(billService));
         countTotalByServices();
     }

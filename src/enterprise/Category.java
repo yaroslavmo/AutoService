@@ -6,18 +6,23 @@ public class Category {
     public String name;
     private ArrayList<Service> categoryServices;
 
-    public Category(String name, ArrayList<Service> categoryServices) {
+
+    public Category(String name) {
         this.name = name;
+        this.categoryServices = new ArrayList<>();
+    }
+    public Category(String name, ArrayList<Service> categoryServices) {
+        this(name);
         this.categoryServices = categoryServices;
     }
 
     public Category(String name, Service categoryService) {
-        this.name = name;
+        this(name);
         addServiceToCategory(categoryService);
     }
 
 
-    private void addServiceToCategory(Service service){
+    public void addServiceToCategory(Service service){
         this.categoryServices.add(service);
     }
 
@@ -29,11 +34,24 @@ public class Category {
         this.categoryServices = categoryServices;
     }
 
+    public void setCategoryServices(Service categoryService) {
+        addServiceToCategory(categoryService);
+    }
+
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "name='" + name + '\'' +
+                ", categoryServices=" + categoryServices +
+                '}';
     }
 }

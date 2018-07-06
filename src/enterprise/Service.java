@@ -39,4 +39,13 @@ public class Service {
     public void setServiceCategory(Category serviceCategory) {
         this.serviceCategory = serviceCategory;
     }
+
+    @Override
+    public String toString() {
+        return "Service{" +
+                "serviceName='" + serviceName + '\'' +
+                ", price=" + price +
+                ", serviceCategory=" + serviceCategory.getName() +
+                '}';
+    }
 }

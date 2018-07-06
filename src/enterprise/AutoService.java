@@ -3,33 +3,37 @@ package enterprise;
 import person.Client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AutoService {
-    private ArrayList<Client> clients;
-    private ArrayList<Service> services;
-    private ArrayList<Bill> bills;
+    private List<Client> clients;
+    private List<Service> services;
+    private List<Bill> bills;
 
-    public AutoService(ArrayList<Client> clients, ArrayList<Service> services, ArrayList<Bill> bills) {
+    public AutoService(List<Client> clients, List<Service> services) {
         this.clients = clients;
         this.services = services;
-        this.bills = bills;
+        this.bills = new ArrayList<>();
     }
 
-    public AutoService(Client client, Service service, Bill bill) {
+    public AutoService(Client client, Service service) {
+        this.clients = new ArrayList<>();
+        this.services = new ArrayList<>();
+        this.bills = new ArrayList<>();
         this.clients.add(client);
         this.services.add(service);
-        this.bills.add(bill);
+        this.bills = new ArrayList<>();
     }
 
-    public ArrayList<Bill> getBills() {
+    public List<Bill> getBills() {
         return bills;
     }
 
-    public ArrayList<Client> getClients() {
+    public List<Client> getClients() {
         return clients;
     }
 
-    public ArrayList<Service> getServices() {
+    public List<Service> getServices() {
         return services;
     }
 
