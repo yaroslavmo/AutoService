@@ -37,8 +37,23 @@ public class AutoService {
         return services;
     }
 
-    public void makeBill(Client billClient, ArrayList<Service> billServices)  {
-        Bill bill = new Bill(billClient,billServices);
+    public void makeBill(Client billClient, ArrayList<Service> billServices) {
+        Bill bill = new Bill(billClient, billServices);
+        bill.addService(services.get(0));
         this.bills.add(bill);
+        bill.print();
     }
+
+    public void deleteBills() {
+        this.bills = new ArrayList<>();
+    }
+
+    public void deleteBill(Bill bill) {
+        this.bills.remove(bill);
+    }
+
+//    public void deleteBill(Integer billId) {
+//        this.bills.remove(billId);
+//    }
+
 }

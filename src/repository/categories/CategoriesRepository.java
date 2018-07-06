@@ -7,5 +7,5 @@ import repository.services.ServicesRepository;
 import java.util.List;
 
 public interface CategoriesRepository {
-        List<Category> getCategoryList();
-    }
+    List<Category> getCategoryList();
+}

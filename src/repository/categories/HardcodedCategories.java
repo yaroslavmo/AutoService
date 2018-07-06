@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class HardcodedCategories implements CategoriesRepository{
+public class HardcodedCategories implements CategoriesRepository {
 
     private ArrayList<Category> categories;
 
@@ -23,9 +23,9 @@ public class HardcodedCategories implements CategoriesRepository{
     }
 
     public void addServices(ServicesRepository services) {
-        for (Category category : this.getCategoryList()){
-            for(Service service : services.getServiceList()){
-                if (service.getServiceCategory().getName().equals(category.getName())){
+        for (Category category : this.getCategoryList()) {
+            for (Service service : services.getServiceList()) {
+                if (service.getServiceCategory().getName().equals(category.getName())) {
 //                    service.setServiceCategory(category);
                     category.addServiceToCategory(service);
                 }

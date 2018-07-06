@@ -9,7 +9,7 @@ public class Bill {
     private final Client client;
     private double totalCost = 0;
     private final ArrayList<Service> billServices;
-    private  Set<Category> billCategories;
+    private Set<Category> billCategories;
     private Map<Category, Double> CategoriesTotal;
 //    private ArrayList<Service> billServices;
 
@@ -37,19 +37,19 @@ public class Bill {
         return CategoriesTotal;
     }
 
-    public void addService(Service service){
+    public void addService(Service service) {
         this.billServices.add(service);
         setBillCategories();
         countTotal();
 
     }
 
-    private void setBillCategories(){
+    private void setBillCategories() {
         this.billCategories = this.billServices.stream()
                 .map(Service::getServiceCategory).collect(Collectors.toSet());
     }
 
-    private void countTotal(){
+    private void countTotal() {
         this.CategoriesTotal = new HashMap<>();
         this.totalCost = billServices.stream()
                 .mapToDouble(Service::getPrice)
@@ -60,7 +60,7 @@ public class Bill {
 
     }
 
-    private Double countTotalByCategory(Category category, ArrayList<Service> services){
+    private Double countTotalByCategory(Category category, ArrayList<Service> services) {
         return services.stream()
                 .filter(service -> service.getServiceCategory().getName().equals(category.getName()))
                 .mapToDouble(Service::getPrice)
@@ -78,18 +78,29 @@ public class Bill {
     @Override
     public String toString() {
         String output = "   ********Bill********" + "\n" +
-                "   Client=" + client.getName() + "\n";
+                "   Client: " + client.getName() + "\n";
 
-        for(Map.Entry <Category,Double> entry : getCategoriesTotal().entrySet()){
-            for(Service service : getBillServices()){
-                if(service.getServiceCategory().getName().equals(entry.getKey().getName())){
-                    output += " ------------" + service.getServiceName() + service.getPrice() + "  " + "\n";
+        for (Map.Entry<Category, Double> entry : getCategoriesTotal().entrySet()) {
+            for (Map.Entry<Service,Long> service : countRepeatedServices(getBillServices()).entrySet()) {
+                if (service.getKey().getServiceCategory().getName().equals(entry.getKey().getName())) {
+                    String amount = service.getValue() > 1 ? "x" + service.getValue() : "";
+                    output += " ------------" + service.getKey().getServiceName() + "  " + service.getKey().getPrice() + "  " + amount + "\n";
                 }
             }
             output += "\n" + " ------------" + entry.getKey().getName().toUpperCase() + "  " + entry.getValue().toString() + "\n\n\n";
         }
         output += "Total: " + totalCost + "\n";
+        countRepeatedServices(getBillServices()).entrySet().forEach(System.out::print);
 
         return output;
+    }
+
+    private Map<Service, Long> countRepeatedServices(ArrayList<Service> services){
+        return services.stream()
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
+    }
+
+    public void print() {
+        System.out.println(this);
     }
 }

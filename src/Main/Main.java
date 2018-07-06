@@ -2,6 +2,7 @@ package Main;
 
 
 import enterprise.AutoService;
+import enterprise.Bill;
 import enterprise.Service;
 import person.Client;
 import repository.categories.CategoriesRepository;
@@ -40,10 +41,10 @@ public class Main {
         ArrayList<Service> servicesToBill2 = new ArrayList<>(Arrays.asList(servicesRepo.getServiceList().get(2),
                 servicesRepo.getServiceList().get(0),
                 servicesRepo.getServiceList().get(1)));
-        autoservice.makeBill(clientsRepo.getClientList().get(0),servicesToBill);
-        autoservice.makeBill(clientsRepo.getClientList().get(2),servicesToBill1);
-        autoservice.makeBill(clientsRepo.getClientList().get(1),servicesToBill2);
-        autoservice.getBills().forEach(System.out::println);
+        autoservice.makeBill(clientsRepo.getClientList().get(0), servicesToBill);
+        autoservice.makeBill(clientsRepo.getClientList().get(2), servicesToBill1);
+        autoservice.makeBill(clientsRepo.getClientList().get(1), servicesToBill2);
+        autoservice.getBills().forEach(Bill::print);
 
     }
 

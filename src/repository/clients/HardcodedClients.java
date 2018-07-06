@@ -13,6 +13,6 @@ public class HardcodedClients implements ClientsRepository {
         Client client2 = new Client("Egor Badyanov");
         Client client3 = new Client("Igor Umanets");
 
-        return new ArrayList<>(Arrays.asList(client1,client2,client3));
+        return new ArrayList<>(Arrays.asList(client1, client2, client3));
     }
 }

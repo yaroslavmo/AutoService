@@ -11,6 +11,7 @@ public class Category {
         this.name = name;
         this.categoryServices = new ArrayList<>();
     }
+
     public Category(String name, ArrayList<Service> categoryServices) {
         this(name);
         this.categoryServices = categoryServices;
@@ -22,7 +23,7 @@ public class Category {
     }
 
 
-    public void addServiceToCategory(Service service){
+    public void addServiceToCategory(Service service) {
         this.categoryServices.add(service);
     }
 
