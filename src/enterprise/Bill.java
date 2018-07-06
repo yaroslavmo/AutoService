@@ -2,10 +2,7 @@ package enterprise;
 
 import person.Client;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Bill {
@@ -53,15 +50,21 @@ public class Bill {
     }
 
     private void countTotal(){
+        this.CategoriesTotal = new HashMap<>();
         this.totalCost = billServices.stream()
                 .mapToDouble(Service::getPrice)
                 .sum();
-        
+        billCategories
+                .forEach(category ->
+                        CategoriesTotal.put(category, countTotalByCategory(category, this.getBillServices())));
 
     }
 
-    private void countTotalByCategory( Map<Category, Double> categories, ArrayList<Service> services){
-
+    private Double countTotalByCategory(Category category, ArrayList<Service> services){
+        return services.stream()
+                .filter(service -> service.getServiceCategory().getName().equals(category.getName()))
+                .mapToDouble(Service::getPrice)
+                .sum();
     }
 
     public ArrayList<Service> getBillServices() {
