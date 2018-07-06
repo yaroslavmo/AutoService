@@ -51,9 +51,5 @@ public class AutoService {
     public void deleteBill(Bill bill) {
         this.bills.remove(bill);
     }
-
-//    public void deleteBill(Integer billId) {
-//        this.bills.remove(billId);
-//    }
-
+    
 }
