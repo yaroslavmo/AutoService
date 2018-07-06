@@ -77,22 +77,21 @@ public class Bill {
 
     @Override
     public String toString() {
-        String output = "   ********Bill********" + "\n" +
-                "   Client: " + client.getName() + "\n";
+        StringBuilder output = new StringBuilder("   ********Bill********" + "\n" +
+                "   Client: " + client.getName() + "\n");
 
         for (Map.Entry<Category, Double> entry : getCategoriesTotal().entrySet()) {
             for (Map.Entry<Service,Long> service : countRepeatedServices(getBillServices()).entrySet()) {
                 if (service.getKey().getServiceCategory().getName().equals(entry.getKey().getName())) {
                     String amount = service.getValue() > 1 ? "x" + service.getValue() : "";
-                    output += " ------------" + service.getKey().getServiceName() + "  " + service.getKey().getPrice() + "  " + amount + "\n";
+                    output.append(" ------------").append(service.getKey().getServiceName()).append("  ").append(service.getKey().getPrice()).append("  ").append(amount).append("\n");
                 }
             }
-            output += "\n" + " ------------" + entry.getKey().getName().toUpperCase() + "  " + entry.getValue().toString() + "\n\n\n";
+            output.append("\n" + " ------------").append(entry.getKey().getName().toUpperCase()).append("  ").append(entry.getValue().toString()).append("\n\n\n");
         }
-        output += "Total: " + totalCost + "\n";
-        countRepeatedServices(getBillServices()).entrySet().forEach(System.out::print);
+        output.append("Total: ").append(totalCost).append("\n");
 
-        return output;
+        return output.toString();
     }
 
     private Map<Service, Long> countRepeatedServices(ArrayList<Service> services){

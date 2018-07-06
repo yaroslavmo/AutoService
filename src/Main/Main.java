@@ -23,15 +23,9 @@ public class Main {
         HardcodedCategories categoriesRepo = new HardcodedCategories();
         ServicesRepository servicesRepo = new HardcodedServices(categoriesRepo);
         categoriesRepo.addServices(servicesRepo);
-        clientsRepo.getClientList().forEach(client -> System.out.println(client.getName()));
-        System.out.println();
-        categoriesRepo.getCategoryList().forEach(System.out::println);
-        System.out.println();
-        servicesRepo.getServiceList().forEach(System.out::println);
-
-        System.out.println(servicesRepo.getServiceList());
 
         AutoService autoservice = new AutoService(clientsRepo.getClientList(), servicesRepo.getServiceList());
+
         ArrayList<Service> servicesToBill = new ArrayList<>(Arrays.asList(servicesRepo.getServiceList().get(5),
                 servicesRepo.getServiceList().get(8),
                 servicesRepo.getServiceList().get(6)));
@@ -44,6 +38,7 @@ public class Main {
         autoservice.makeBill(clientsRepo.getClientList().get(0), servicesToBill);
         autoservice.makeBill(clientsRepo.getClientList().get(2), servicesToBill1);
         autoservice.makeBill(clientsRepo.getClientList().get(1), servicesToBill2);
+        autoservice.getBills().get(2).addService(servicesRepo.getServiceList().get(2));
         autoservice.getBills().forEach(Bill::print);
 
     }
