@@ -21,6 +21,10 @@ public class AutoService {
         this.bills.add(bill);
     }
 
+    public ArrayList<Bill> getBills() {
+        return bills;
+    }
+
     public ArrayList<Client> getClients() {
         return clients;
     }
@@ -29,8 +33,8 @@ public class AutoService {
         return services;
     }
 
-    public Bill makeBill(Client billClient, ArrayList<Service> billServices)  {
-        return null;
-
+    public void makeBill(Client billClient, ArrayList<Service> billServices)  {
+        Bill bill = new Bill(billClient,billServices);
+        this.bills.add(bill);
     }
 }

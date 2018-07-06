@@ -13,7 +13,7 @@ public class Category {
 
     public Category(String name, Service categoryService) {
         this.name = name;
-        this.addServiceToCategory(categoryService);
+        addServiceToCategory(categoryService);
     }
 
 

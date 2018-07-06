@@ -14,6 +14,7 @@ public class Bill {
     public Bill(Client client, ArrayList<Service> billServices) {
         this.client = client;
         this.billServices = billServices;
+        countTotalByServices();
     }
 
     public Bill(Client client, Service billService) {
@@ -42,5 +43,9 @@ public class Bill {
 
     public ArrayList<Service> getBillServices() {
         return billServices;
+    }
+
+    public double getTotalCost() {
+        return totalCost;
     }
 }
