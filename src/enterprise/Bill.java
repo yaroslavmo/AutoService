@@ -77,16 +77,16 @@ public class Bill {
 
     @Override
     public String toString() {
-        String output = "Bill" + "\n" +
-                "client=" + client + "\n";
+        String output = "   ********Bill********" + "\n" +
+                "   Client=" + client.getName() + "\n";
 
         for(Map.Entry <Category,Double> entry : getCategoriesTotal().entrySet()){
             for(Service service : getBillServices()){
                 if(service.getServiceCategory().getName().equals(entry.getKey().getName())){
-                    output += service.getServiceName() + " ------------ " + service.getPrice() + "\n";
+                    output += " ------------" + service.getServiceName() + service.getPrice() + "  " + "\n";
                 }
             }
-            output += "\n" + entry.getKey().getName().toUpperCase() + " ------------ " + entry.getValue().toString() + "\n\n\n";
+            output += "\n" + " ------------" + entry.getKey().getName().toUpperCase() + "  " + entry.getValue().toString() + "\n\n\n";
         }
         output += "Total: " + totalCost + "\n";
 
