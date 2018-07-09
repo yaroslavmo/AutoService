@@ -3,9 +3,14 @@ package enterprise;
 import enterprise.Bill;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Journal {
     private ArrayList<Bill> closedBills;
+
+    public Journal() {
+        this.closedBills = new ArrayList<>();
+    }
 
     public ArrayList<Bill> getAllBills() {
         return closedBills;
@@ -20,7 +25,7 @@ public class Journal {
     }
 
     public Bill getOneBill(Bill billToCheck) {
-        for (Bill bill : this.getAllBills()
+        for (Bill bill : this.closedBills
                 ) {
             if (bill == billToCheck) {
                 return bill;
@@ -29,12 +34,7 @@ public class Journal {
         return null;
     }
 
-    public void deleteStoredBill(Bill billToDelete) {
-        for (Bill bill : this.getAllBills()
-                ) {
-            if (bill == billToDelete) {
-                this.getAllBills().remove(billToDelete);
-            }
+    public boolean deleteStoredBill(Bill billToDelete) {
+        return this.closedBills.remove(billToDelete);
         }
-    }
 }

@@ -45,14 +45,17 @@ public class AutoService {
 
     public void makeBill(Client billClient, ArrayList<Service> billServices) {
         Bill bill = new Bill(billClient, billServices);
-        bill.addService(services.get(0));
         this.currentBills.add(bill);
     }
 
     public void closeAllBills(){
-        for (Bill bill:this.getCurrentBills()
+        ArrayList<Bill> copyCurrentBills = new ArrayList<>(this.getCurrentBills());
+        for (Bill bill: copyCurrentBills
              ) {
-            if (bill.isClosed()){continue;}
+            if (bill.isClosed()){
+                getCurrentBills().remove(bill);
+                continue;
+            }
             bill.setClosed(true);
             journal.addBill(bill);
             currentBills.remove(bill);
@@ -72,7 +75,7 @@ public class AutoService {
 
     public void print(Bill billToPrint){
         if (journal.getOneBill(billToPrint) == null){
-            System.out.println("Therre is no such bill.");
+            System.out.println("There is no such bill.");
         }
         else{
         System.out.println(journal.getOneBill(billToPrint));}
@@ -83,7 +86,9 @@ public class AutoService {
     }
 
     public void deleteBillFromJournal(Bill bill) {
-        this.journal.deleteStoredBill(bill);
+        if(!this.journal.deleteStoredBill(bill)){
+            System.out.println("There is no such bill.");
+        }
     }
 
 }

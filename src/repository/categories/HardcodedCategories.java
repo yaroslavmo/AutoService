@@ -26,7 +26,6 @@ public class HardcodedCategories implements CategoriesRepository {
         for (Category category : this.getCategoryList()) {
             for (Service service : services.getServiceList()) {
                 if (service.getServiceCategory().getName().equals(category.getName())) {
-//                    service.setServiceCategory(category);
                     category.addServiceToCategory(service);
                 }
             }
