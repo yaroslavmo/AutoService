@@ -8,25 +8,23 @@ import java.util.List;
 public class AutoService {
     private List<Client> clients;
     private List<Service> services;
-    private List<Bill> bills; // перенести в журнал подумать над closeBill (внутри applyDiscount)  и currentBill
+    private List<Bill> currentBills;
+    private Journal journal; // перенести в журнал подумать над closeBill (внутри applyDiscount)  и currentBill
 
     public AutoService(List<Client> clients, List<Service> services) {
         this.clients = clients;
         this.services = services;
-        this.bills = new ArrayList<>();
+        this.journal = new Journal();
+        this.currentBills = new ArrayList<>();
     }
 
     public AutoService(Client client, Service service) {
         this.clients = new ArrayList<>();
         this.services = new ArrayList<>();
-        this.bills = new ArrayList<>();
+        this.currentBills = new ArrayList<>();
+        this.journal = new Journal();
         this.clients.add(client);
         this.services.add(service);
-        this.bills = new ArrayList<>();
-    }
-
-    public List<Bill> getBills() {
-        return bills;
     }
 
     public List<Client> getClients() {
@@ -37,19 +35,55 @@ public class AutoService {
         return services;
     }
 
+    public List<Bill> getCurrentBills() {
+        return currentBills;
+    }
+
+    public Journal getJournal() {
+        return journal;
+    }
+
     public void makeBill(Client billClient, ArrayList<Service> billServices) {
         Bill bill = new Bill(billClient, billServices);
         bill.addService(services.get(0));
-        this.bills.add(bill);
-        bill.print();
+        this.currentBills.add(bill);
     }
 
-    public void deleteBills() {
-        this.bills = new ArrayList<>();
+    public void closeAllBills(){
+        for (Bill bill:this.getCurrentBills()
+             ) {
+            if (bill.isClosed()){continue;}
+            bill.setClosed(true);
+            journal.addBill(bill);
+            currentBills.remove(bill);
+        }
     }
 
-    public void deleteBill(Bill bill) {
-        this.bills.remove(bill);
+    public void closeOneBill(Bill billToClose){
+        for (Bill bill:this.getCurrentBills()
+             ) {
+            if (bill.isClosed()){continue;}
+            if (bill == billToClose){
+            bill.setClosed(true);
+            journal.addBill(bill);
+            currentBills.remove(bill);}
+        }
+    }
+
+    public void print(Bill billToPrint){
+        if (journal.getOneBill(billToPrint) == null){
+            System.out.println("Therre is no such bill.");
+        }
+        else{
+        System.out.println(journal.getOneBill(billToPrint));}
+    }
+
+    public void clearJournal() {
+        this.journal.deleteAllBills();
+    }
+
+    public void deleteBillFromJournal(Bill bill) {
+        this.journal.deleteStoredBill(bill);
     }
 
 }

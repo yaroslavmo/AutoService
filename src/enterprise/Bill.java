@@ -9,6 +9,7 @@ public class Bill {
     private final Client client;
     private double totalCost = 0;
     private final ArrayList<Service> billServices;
+    private boolean closed;
     private Set<Category> billCategories;
     private Map<Category, Double> CategoriesTotal;
 //    private ArrayList<Service> billServices;
@@ -42,6 +43,14 @@ public class Bill {
         setBillCategories();
         countTotal();
 
+    }
+
+    public boolean isClosed (){
+        return this.closed;
+    }
+
+    public void setClosed(boolean closed) {
+        this.closed = closed;
     }
 
     private void setBillCategories() {

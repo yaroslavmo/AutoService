@@ -38,8 +38,9 @@ public class Main {
         autoservice.makeBill(clientsRepo.getClientList().get(0), servicesToBill);
         autoservice.makeBill(clientsRepo.getClientList().get(2), servicesToBill1);
         autoservice.makeBill(clientsRepo.getClientList().get(1), servicesToBill2);
-        autoservice.getBills().get(2).addService(servicesRepo.getServiceList().get(2));
-        autoservice.getBills().forEach(Bill::print);
+        autoservice.getCurrentBills().get(2).addService(servicesRepo.getServiceList().get(2));
+        autoservice.closeAllBills();
+        autoservice.getJournal().getAllBills().forEach(Bill::print);
 
     }
 
