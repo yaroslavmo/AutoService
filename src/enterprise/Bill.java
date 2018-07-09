@@ -104,8 +104,8 @@ public class Bill {
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     }
 
-    private String countCategoryDiscount(double categoryTotal, double discount) {
-        return String.format("  %f", categoryTotal * discount);
+    private String countCategoryDiscount(double discount, double categoryTotal) {
+        return String.format("  %s", categoryTotal * discount);
     }
 
     private String printDiscount(Category category, double categoryTotal) {
@@ -118,21 +118,22 @@ public class Bill {
 
 
     private String createBillStringToPrint() {
-String s;
         String output = String.format("   ********Bill******** \n   Client:%s \n", client.getName());
         for (Map.Entry<Category, Double> entry : getCategoriesTotal().entrySet()) {
             for (Map.Entry<Service, Long> service : countRepeatedServices(getBillServices()).entrySet()) {
                 if (service.getKey().getServiceCategory().getName().equals(entry.getKey().getName())) {
                     String amount = service.getValue() > 1 ? "x" + service.getValue() : "";
-                    //output = String.format(output + " ------------  %s   \n", service.getKey().getServiceName());
-                            //service.getKey().getPrice(), amount);
+//                    output = String.format(output + " ------------   %s \n",
+//                            service.getKey().getServiceName(),
+//                            service.getKey().getPrice(),
+//                            amount));
                 }
             }
-            output += "\n  ------------ %1$s   %2$s  %3$s\n\n\n";
-            output = String.format(output ,
+            System.out.println(output) ;
+            output = String.format(output + "\n  ------------ %1$s   %2$s  %3$s\n\n\n" ,
                     entry.getKey().getName().toUpperCase(),
                     entry.getValue(),
-                    printDiscount(entry.getKey(), entry.getValue())
+                    printDiscount(entry.getKey(), entry.getValue()).toString()
                     );
         }
         output = String.format(output + "\n  Total: %.2f", this.totalCost);
