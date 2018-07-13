@@ -2,12 +2,12 @@ package enterprise.discountSystem;
 
 public class Discount {
     private String discountName;
-    private double amount;
+    private double discountAmount;
 
 
     public Discount(String discountName, int percentage) {
         this.discountName = discountName;
-        this.amount = percentage / 100.0d;
+        this.discountAmount = percentage / 100.0d;
     }
 
     public String getDiscountName() {
@@ -18,11 +18,11 @@ public class Discount {
         this.discountName = discountName;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getDiscountAmount() {
+        return discountAmount;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setDiscountAmount(double discountAmount) {
+        this.discountAmount = discountAmount;
     }
 }

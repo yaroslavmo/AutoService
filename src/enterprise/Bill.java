@@ -1,6 +1,5 @@
 package enterprise;
 
-import enterprise.discountSystem.Discount;
 import person.Client;
 
 import java.util.*;
@@ -8,10 +7,12 @@ import java.util.stream.Collectors;
 
 public class Bill {
     private final Client client;
-    private double totalCost = 0;
     private final ArrayList<Service> billServices;
     private boolean closed;
-    private double totalDiscount;
+    private double totalCost = 0;
+    private double totalDiscount = 0;
+    private double totalCostWithDiscount = 0;
+
     private Set<Category> billCategories;
     private Map<Category, Double> CategoriesTotal;
 //    private ArrayList<Service> billServices;
@@ -20,7 +21,6 @@ public class Bill {
     public Bill(Client client, ArrayList<Service> billServices) {
         this.client = client;
         this.billServices = billServices;
-        this.totalDiscount = 0;
         setBillCategories();
         countTotal();
     }
@@ -28,7 +28,6 @@ public class Bill {
     public Bill(Client client, Service billService) {
         this.client = client;
         //this.billServices = new ArrayList<>();
-        this.totalDiscount = 0;
         this.billServices = new ArrayList<>(Collections.singletonList(billService));
         setBillCategories();
         countTotal();
@@ -62,21 +61,24 @@ public class Bill {
                 .map(Service::getServiceCategory).collect(Collectors.toSet());
     }
 
+    private Double countCategoryDiscount(double discount, double categoryTotal) {
+        return categoryTotal * discount;
+    }
 
     private void countTotal() {
-        double billDiscount = 0;
         this.CategoriesTotal = new HashMap<>();
         billCategories
-                .forEach(category ->
-                        CategoriesTotal.put(category, countTotalByCategory(category, this.getBillServices())));
-//        billDiscount = this.CategoriesTotal.entrySet().stream().mapToDouble(Double::);
-        for (Double d : this.CategoriesTotal.values()) {
-            billDiscount += d;
-        }
-        System.out.println(billDiscount);
+                .forEach(category -> {
+                    this.getCategoriesTotal().put(category, countTotalByCategory(category, this.getBillServices()));
+                });
+        this.totalDiscount = this.getCategoriesTotal().entrySet().stream().mapToDouble(d ->
+                countCategoryDiscount(d.getKey().getDiscount().getDiscountAmount(), d.getValue())).sum();
+//                d.getValue()*).sum();
+
         this.totalCost = billServices.stream()
                 .mapToDouble(Service::getPrice)
                 .sum();
+        this.totalCostWithDiscount = this.totalCost - this.totalDiscount;
 
     }
 
@@ -101,7 +103,7 @@ public class Bill {
 
     public void countTotalDiscount() {
         for (Map.Entry<Category, Double> entry : getCategoriesTotal().entrySet()) {
-            this.totalDiscount += entry.getKey().getDiscount().getAmount();
+            this.totalDiscount += entry.getKey().getDiscount().getDiscountAmount();
         }
     }
 
@@ -110,14 +112,11 @@ public class Bill {
                 .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
     }
 
-    private String countCategoryDiscount(double discount, double categoryTotal) {
-        return String.format("  %s", categoryTotal * discount);
-    }
 
     private String printDiscount(Category category, double categoryTotal) {
         if (category.hasDiscount()) {
-            return String.format("  Discount ( %s -- %s)", category.getDiscount().getDiscountName(),
-                    this.countCategoryDiscount(category.getDiscount().getAmount(), categoryTotal));
+            return String.format("  Discount ( %s --   %s)", category.getDiscount().getDiscountName(),
+                    this.countCategoryDiscount(category.getDiscount().getDiscountAmount(), categoryTotal));
         }
         return "";
     }
@@ -126,7 +125,6 @@ public class Bill {
     private String createBillStringToPrint() {
         StringBuilder output = new StringBuilder("\n\n   ********Bill********" + "\n" +
                 "   Client: " + client.getName() + "\n");
-
         for (Map.Entry<Category, Double> categoryAndTotal : getCategoriesTotal().entrySet()) {
             for (Map.Entry<Service, Long> service : countRepeatedServices(getBillServices()).entrySet()) {
                 if (service.getKey().getServiceCategory().getName().equals(categoryAndTotal.getKey().getName())) {
@@ -139,7 +137,9 @@ public class Bill {
                     .append("  ").append(categoryAndTotal.getValue().toString())
                     .append(printDiscount(categoryAndTotal.getKey(), categoryAndTotal.getValue())).append("\n\n\n");
         }
+        output.append("Full discount: ").append(totalDiscount).append("\n");
         output.append("Total: ").append(totalCost).append("\n");
+        output.append("Total cost subtracting discount: ").append(totalCostWithDiscount).append("\n");
 
         return output.toString();
     }
